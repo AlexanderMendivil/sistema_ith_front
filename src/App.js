@@ -1,24 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
+import { getAllUsers } from './api_calls/users';
+import { ButtonAppBar } from './components/organisms/AppBar/AppBar';
 
 function App() {
+
+  const [ data, setData ] = useState([]);
+  
+  useEffect(()=>{
+    getAllUsers().then(data => setData(data)).catch( e => console.log(e) );
+
+  },[]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <ButtonAppBar/>
+    <p>{JSON.stringify(data, null, 2)}</p>
+    </>
   );
 }
 
