@@ -2,28 +2,36 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
+import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { getLogin } from '../../api_calls/login';
 
 const theme = createTheme();
 
 export const Login = () => {
+
+  const navigate = useNavigate();
+  const [ name, setName ] = useState('');
+  const [ password, setPassword ] = useState('');
+  const [ error, setError ] = useState('');
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    // getLogin();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    getLogin( name, password ).then(data=>{ 
+      if(!data.Error){
+        localStorage.setItem('user-lab', JSON.stringify(data));
+        navigate('/');
+      }else{
+        setError(data.Error);
+      }
+     });
+    
   };
 
   return (
@@ -49,16 +57,17 @@ export const Login = () => {
               margin="normal"
               required
               fullWidth
+              onChange={(text) => setName(text.target.value) }
               id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              label="Usuario"
+              name="Usuario"
               autoFocus
             />
             <TextField
               margin="normal"
               required
               fullWidth
+              onChange={(text) => setPassword(text.target.value) }
               name="password"
               label="Password"
               type="password"
@@ -75,6 +84,8 @@ export const Login = () => {
               Entrar
             </Button>
           </Box>
+          {
+            error && (<Alert severity="error">{error}</Alert>) }
         </Box>
       </Container>
     </ThemeProvider>

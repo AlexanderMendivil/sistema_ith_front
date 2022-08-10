@@ -6,7 +6,15 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
+import { useNavigate } from 'react-router-dom';
+
 export const ButtonAppBar = () => {
+
+  const navigate = useNavigate();
+  const handleLogout = () =>{
+    localStorage.removeItem('user-lab');
+    navigate('/auth/login');
+  }
     return (
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
@@ -23,7 +31,7 @@ export const ButtonAppBar = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               News
             </Typography>
-            <Button color="inherit">Logout</Button>
+            <Button color="inherit" onClick={ handleLogout }>Logout</Button>
           </Toolbar>
         </AppBar>
       </Box>
