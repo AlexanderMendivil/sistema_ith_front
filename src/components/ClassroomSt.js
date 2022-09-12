@@ -15,11 +15,11 @@ function ClassroomSt({chartData}) {
     var aulas = Object.keys(classrooms);
     for(let x = 0; x < aulas.length; x++) {
         for(let y = 0; y < chartData.length; y++) {
-            if(aulas[x] == chartData[y].aula) {
+            if(aulas[x] === chartData[y].aula) {
                 if(classrooms[aulas[x]] != 0) {
                     var total = classrooms[aulas[x]];
                 } else {
-                    var total = 0;
+                total = 0;
                 }
                 if(chartData[y]?.Lunes!=null) {
                     total += parseInt(chartData[y]?.Lunes.substring(7,8)) - parseInt(chartData[y]?.Lunes.substring(0,1));
@@ -68,11 +68,11 @@ function ClassroomSt({chartData}) {
         cadena += aulas[x] + ": " + horas[x] + " horas | ";
     }
 
-    return <>
+    return <div>
     <h1>Horas de uso por aula (por semana):</h1>
     <h3>{cadena}</h3>
     <ClassroomGr scores={horas} labels={aulas}/>
-    </>
+    </div>
 }
 
 export default ClassroomSt;

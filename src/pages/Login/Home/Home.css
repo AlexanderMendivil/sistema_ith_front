@@ -1,0 +1,16 @@
+.home-container{
+    background-color: #F9F9F9;
+}
+.flex-charts{
+    background-color: #D8D8D8;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.carrera-size{
+
+    margin-top: 5rem;
+    width: 30%;
+    height: 30%;
+}
