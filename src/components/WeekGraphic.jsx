@@ -22,8 +22,7 @@ export default function WeekGraphic({scores, labels}) {
             ],
             labels
         };
-    }, []);
+    }, [scores]);
 
-    //si la grafica no carga, borrar el parametro data y poner scores, para luego volver a poner data
     return <Line data={data} options={options} />
 }

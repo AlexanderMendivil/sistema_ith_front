@@ -14,7 +14,6 @@ export const Home = () => {
     <>
     <ButtonAppBar/>
     <WeekStatistic chartData={data}/>
-    <p>{JSON.stringify(data, null, 2)}</p>
     </>
   )
 }
