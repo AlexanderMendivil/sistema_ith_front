@@ -8,21 +8,28 @@ const options = {
     fill: true,
 }
 
-export default function WeekGraphic({scores, labels}) {
+export default function WeekGraphic({scores, scores2, labels}) {
     const data = useMemo(function () {
         return {
             datasets: [
                 {
-                    label: "Horas de uso  por día",
+                    label: "Horas de uso por día",
                     data: scores,
                     tension: 0.4,
-                    borderColor: "cornFlowerBlue",
+                    borderColor: "blue",
+                    pointRadius: 5,
+                },
+                {
+                    label: "Horas de uso reales por día",
+                    data: scores2,
+                    tension: 0.4,
+                    borderColor: "red",
                     pointRadius: 5,
                 },
             ],
             labels
         };
-    }, [scores]);
+    }, [scores, scores2]);
 
     return <Line data={data} options={options} />
 }
