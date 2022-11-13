@@ -29,7 +29,7 @@ export const ButtonAppBar = () => {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              News
+              ITH
             </Typography>
             <Button color="inherit" onClick={ handleLogout }>Logout</Button>
           </Toolbar>

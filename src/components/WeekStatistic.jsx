@@ -1,77 +1,86 @@
 import { alertTitleClasses } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
+import { useEffect } from "react";
+import { AppContext } from "../context/AppContext";
 import WeekGraphic from "./WeekGraphic";
 
 function WeekStatistic({ chartData, chartData2 }) {
+  const { handleHoursPerDay, hoursPerDay } = useContext( AppContext )
   //          l  m  mi j  v  s
-  var days = [0, 0, 0, 0, 0, 0];
-  var arr = ["", "", "", "", "", ""];
-  var min = [0, 0, 0, 0, 0, 0];
-  var rDays = [0, 0, 0, 0, 0, 0];
-  var strRDays = ["", "", "", "", "", ""];
-  for (let x = 0; x < chartData.length; x++) {
-    if (chartData[x]?.Lunes != null) {
-      days[0] +=
-        parseInt(chartData[x]?.Lunes.substring(7, 8)) -
-        parseInt(chartData[x]?.Lunes.substring(0, 1));
+  let days = [0, 0, 0, 0, 0, 0];
+  let arr = ["", "", "", "", "", ""];
+  let min = [0, 0, 0, 0, 0, 0];
+  let rDays = [0, 0, 0, 0, 0, 0];
+  let strRDays = ["", "", "", "", "", ""];
+
+  useEffect(()=>{
+    for (let x = 0; x < chartData.length; x++) {
+      if (chartData[x]?.Lunes != null) {
+        days[0] +=
+          parseInt(chartData[x]?.Lunes.substring(7, 8)) -
+          parseInt(chartData[x]?.Lunes.substring(0, 1));
+      }
+      if (chartData[x]?.Martes != null) {
+        days[1] +=
+          parseInt(chartData[x]?.Martes.substring(7, 8)) -
+          parseInt(chartData[x]?.Martes.substring(0, 1));
+      }
+      if (chartData[x]?.Miercoles != null) {
+        days[2] +=
+          parseInt(chartData[x]?.Miercoles.substring(7, 8)) -
+          parseInt(chartData[x]?.Miercoles.substring(0, 1));
+      }
+      if (chartData[x]?.Jueves != null) {
+        days[3] +=
+          parseInt(chartData[x]?.Jueves.substring(7, 8)) -
+          parseInt(chartData[x]?.Jueves.substring(0, 1));
+      }
+      if (chartData[x]?.Viernes != null) {
+        days[4] +=
+          parseInt(chartData[x]?.Viernes.substring(7, 8)) -
+          parseInt(chartData[x]?.Viernes.substring(0, 1));
+      }
+      if (chartData[x]?.Sabado != null) {
+        days[5] +=
+          parseInt(chartData[x]?.Sabado.substring(7, 8)) -
+          parseInt(chartData[x]?.Sabado.substring(0, 1));
+      }
+      //VESPERTINO
+      if (chartData[x]?.Lunes_vesp != null) {
+        days[0] +=
+          parseInt(chartData[x]?.Lunes_vesp.substring(7, 8)) -
+          parseInt(chartData[x]?.Lunes_vesp.substring(0, 1));
+      }
+      if (chartData[x]?.Martes_vesp != null) {
+        days[1] +=
+          parseInt(chartData[x]?.Martes_vesp.substring(7, 8)) -
+          parseInt(chartData[x]?.Martes_vesp.substring(0, 1));
+      }
+      if (chartData[x]?.Miercoles_vesp != null) {
+        days[2] +=
+          parseInt(chartData[x]?.Miercoles_vesp.substring(7, 8)) -
+          parseInt(chartData[x]?.Miercoles_vesp.substring(0, 1));
+      }
+      if (chartData[x]?.Jueves_vesp != null) {
+        days[3] +=
+          parseInt(chartData[x]?.Jueves_vesp.substring(7, 8)) -
+          parseInt(chartData[x]?.Jueves_vesp.substring(0, 1));
+      }
+      if (chartData[x]?.Viernes_vesp != null) {
+        days[4] +=
+          parseInt(chartData[x]?.Viernes_vesp.substring(7, 8)) -
+          parseInt(chartData[x]?.Viernes_vesp.substring(0, 1));
+      }
+      if (chartData[x]?.Sabado_vesp != null) {
+        days[5] +=
+          parseInt(chartData[x]?.Sabado_vesp.substring(7, 8)) -
+          parseInt(chartData[x]?.Sabado_vesp.substring(0, 1));
+      }
+      
     }
-    if (chartData[x]?.Martes != null) {
-      days[1] +=
-        parseInt(chartData[x]?.Martes.substring(7, 8)) -
-        parseInt(chartData[x]?.Martes.substring(0, 1));
-    }
-    if (chartData[x]?.Miercoles != null) {
-      days[2] +=
-        parseInt(chartData[x]?.Miercoles.substring(7, 8)) -
-        parseInt(chartData[x]?.Miercoles.substring(0, 1));
-    }
-    if (chartData[x]?.Jueves != null) {
-      days[3] +=
-        parseInt(chartData[x]?.Jueves.substring(7, 8)) -
-        parseInt(chartData[x]?.Jueves.substring(0, 1));
-    }
-    if (chartData[x]?.Viernes != null) {
-      days[4] +=
-        parseInt(chartData[x]?.Viernes.substring(7, 8)) -
-        parseInt(chartData[x]?.Viernes.substring(0, 1));
-    }
-    if (chartData[x]?.Sabado != null) {
-      days[5] +=
-        parseInt(chartData[x]?.Sabado.substring(7, 8)) -
-        parseInt(chartData[x]?.Sabado.substring(0, 1));
-    }
-    //VESPERTINO
-    if (chartData[x]?.Lunes_vesp != null) {
-      days[0] +=
-        parseInt(chartData[x]?.Lunes_vesp.substring(7, 8)) -
-        parseInt(chartData[x]?.Lunes_vesp.substring(0, 1));
-    }
-    if (chartData[x]?.Martes_vesp != null) {
-      days[1] +=
-        parseInt(chartData[x]?.Martes_vesp.substring(7, 8)) -
-        parseInt(chartData[x]?.Martes_vesp.substring(0, 1));
-    }
-    if (chartData[x]?.Miercoles_vesp != null) {
-      days[2] +=
-        parseInt(chartData[x]?.Miercoles_vesp.substring(7, 8)) -
-        parseInt(chartData[x]?.Miercoles_vesp.substring(0, 1));
-    }
-    if (chartData[x]?.Jueves_vesp != null) {
-      days[3] +=
-        parseInt(chartData[x]?.Jueves_vesp.substring(7, 8)) -
-        parseInt(chartData[x]?.Jueves_vesp.substring(0, 1));
-    }
-    if (chartData[x]?.Viernes_vesp != null) {
-      days[4] +=
-        parseInt(chartData[x]?.Viernes_vesp.substring(7, 8)) -
-        parseInt(chartData[x]?.Viernes_vesp.substring(0, 1));
-    }
-    if (chartData[x]?.Sabado_vesp != null) {
-      days[5] +=
-        parseInt(chartData[x]?.Sabado_vesp.substring(7, 8)) -
-        parseInt(chartData[x]?.Sabado_vesp.substring(0, 1));
-    }
-  }
+    handleHoursPerDay(days)
+  }, [chartData])
+  
 
   // ESTADISTICAS DEL REGISTRO DE HUELLA
   var usuariosRegistrados = [];
@@ -209,6 +218,7 @@ function WeekStatistic({ chartData, chartData2 }) {
             strRDays[x] = `${hrs}:${Math.trunc(mod)}`;
         }
     }
+    
   }
 
   var labels = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
@@ -217,15 +227,15 @@ function WeekStatistic({ chartData, chartData2 }) {
     <>
       <h1>Horas de uso del equipo por día:</h1>
       <h3>
-        Lunes: {days[0]} | Martes: {days[1]} | Miércoles: {days[2]} | Jueves:{" "}
-        {days[3]} | Viernes: {days[4]} | Sábado: {days[5]}
+        Lunes: {hoursPerDay[0]} | Martes: {hoursPerDay[1]} | Miércoles: {hoursPerDay[2]} | Jueves:{" "}
+        {hoursPerDay[3]} | Viernes: {hoursPerDay[4]} | Sábado: {hoursPerDay[5]}
       </h3>
       <h2>Horas reales de uso del equipo por día:</h2>
       <h3>
         Lunes: {strRDays[0]} | Martes: {strRDays[1]} | Miércoles: {strRDays[2]} | Jueves:{" "}
         {strRDays[3]} | Viernes: {strRDays[4]} | Sábado: {strRDays[5]}
       </h3>
-      <WeekGraphic scores={days} scores2={rDays} labels={labels} />
+      <WeekGraphic scores={hoursPerDay} scores2={rDays} labels={labels} />
       <br />
     </>
   );
