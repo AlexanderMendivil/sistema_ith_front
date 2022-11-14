@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Pdf from "react-to-pdf";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,36 +9,17 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from "@mui/material";
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
 import { useContext } from 'react';
 import { AppContext } from '../../context/AppContext'
 import Box from '@mui/material/Box';
 import BannerIth from '../../assets/images/banner_ith.png'
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
 
-  var labels = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
-export const TablePdf = ({ data, day = null, week = null, month = null, career = null, classroom = null, group = null, }) => {
+export const TableGroupWeeklyPdf = () => {
 
-    const { hoursPerDay } = useContext( AppContext )
-    console.log(hoursPerDay)
+    const { hoursWeeklyGroupDay, nameWeeklyGroup } = useContext( AppContext )
     const ref = React.createRef();
-    const [tableHeaders, setTableHeaders] = useState([])
 
-    useEffect(()=>{
-        setTableHeaders(Object.keys(data[0]))
-        
-    }, [])
   return (
     <>
 
@@ -61,7 +42,7 @@ export const TablePdf = ({ data, day = null, week = null, month = null, career =
               Tabla donde se refleja la cantidad de horas semanales
             </Typography>
             <Typography variant="subtitle1" component="subtitle1">
-               registradas en el laboratorio de sistemas e informatica del ITH. 
+               por grupo registradas en el laboratorio de sistemas e informatica del ITH. 
             </Typography>
             </Box>
         </Box>
@@ -78,14 +59,14 @@ export const TablePdf = ({ data, day = null, week = null, month = null, career =
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            {labels.map( (header, index) => <TableCell key={index}>{header}</TableCell>)}
+            {nameWeeklyGroup.map( (header, index) => <TableCell key={index}>{header}</TableCell>)}
           </TableRow>
         </TableHead>
         <TableBody>
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-              {hoursPerDay.map((hours, index) => (
+              {hoursWeeklyGroupDay.map((hours, index) => (
               <TableCell key={index} component="th" scope="row">
                 {hours}
               </TableCell>
