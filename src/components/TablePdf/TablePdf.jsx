@@ -14,10 +14,11 @@ import { AppContext } from '../../context/AppContext'
 import Box from '@mui/material/Box';
 import BannerIth from '../../assets/images/banner_ith.png'
 
+  var labels = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
-export const TableGroupWeeklyPdf = () => {
+export const TablePdf = ({week, month, classroom, group, career}) => {
 
-    const { hoursWeeklyGroupDay, nameWeeklyGroup } = useContext( AppContext )
+    const { hoursPerDay, hoursWeeklyGroupDay, nameWeeklyGroup } = useContext( AppContext )
     const ref = React.createRef();
 
   return (
@@ -42,12 +43,50 @@ export const TableGroupWeeklyPdf = () => {
               Tabla donde se refleja la cantidad de horas semanales
             </Typography>
             <Typography variant="subtitle1" component="subtitle1">
-               por grupo registradas en el laboratorio de sistemas e informatica del ITH. 
+               registradas en el laboratorio de sistemas e informatica del ITH. 
             </Typography>
             </Box>
         </Box>
 
-        <Box
+        {
+          
+          week ? 
+          <Box
+        sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',}}>
+
+        
+      <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            {labels.map( (header, index) => <TableCell key={index}>{header}</TableCell>)}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+            <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+              {hoursPerDay.map((hours, index) => (
+              <TableCell key={index} component="th" scope="row">
+                {hours}
+              </TableCell>
+                ))}
+            </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
+    </Box> : <></>
+    }
+
+
+    {
+      
+      group ?
+      <Box
         sx={{
             marginTop: 8,
             display: 'flex',
@@ -75,7 +114,9 @@ export const TableGroupWeeklyPdf = () => {
         </TableBody>
       </Table>
     </TableContainer>
-    </Box>
+    </Box>: <></>
+    }
+
       </div>
       <Box sx={{
         marginTop: 5,

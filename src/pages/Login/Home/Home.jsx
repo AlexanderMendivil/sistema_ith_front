@@ -16,13 +16,11 @@ import {
   FormGroup,
   InputLabel,
   MenuItem,
-  RadioGroup,
   Select,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import Radio from '@mui/material/Radio';
-import { TableWeekPdf } from "../../../components/TableWeekPdf/TableWeekPdf";
-import { TableGroupWeeklyPdf } from "../../../components/TableGroupWeeklyPdf/TableGroupWeeklyPdf";
+import CheckBox from '@mui/material/Checkbox';
+import { TablePdf } from "../../../components/TablePdf/TablePdf";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -43,7 +41,11 @@ export const Home = () => {
   const [data2, setData2] = useState([]);
   const [hide, setHide] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [ value, setValue ] = useState('')
+  const [week, setWeek] = useState(false);
+  const [month, setMonth] = useState(false);
+  const [career, setCareer] = useState(false);
+  const [classroom, setClassroom] = useState(false);
+  const [group, setGroup] = useState(false);
 
   useEffect(() => {
     getAllUsers()
@@ -57,8 +59,20 @@ export const Home = () => {
   const handleClose = () => {
     setOpenModal(!openModal)
   } 
-  const onChange = (e) =>{
-    setValue(e.target.value)
+  const onChangeWeek = (e) =>{
+    setWeek(!week)
+  }
+  const onChangeMonth = (e) =>{
+    setMonth(!month)
+  }
+  const onChangeCareer = (e) =>{
+    setCareer(!career)
+  }
+  const onChangeClassroom = (e) =>{
+    setClassroom(!classroom)
+  }
+  const onChangeGroup = (e) =>{
+    setGroup(!group)
   }
    const createPDF = () => {
       setOpenModal(true)
@@ -74,9 +88,7 @@ export const Home = () => {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            // value={age}
             label="Age"
-            // onChange={handleChange}
           >
             <MenuItem value={10}>Día</MenuItem>
             <MenuItem value={20}>Semana</MenuItem>
@@ -92,38 +104,32 @@ export const Home = () => {
         {hide && (
           <Box sx={{ mt: 2, mb: 2 }}>
             <FormGroup>
-
-              <RadioGroup
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              value={value}
-              onChange={onChange}
-              >
-
               
-              {/* <FormControlLabel control={<Checkbox onChange={(e)=> setCheckDay(!checkDay)} {...label} />} label="Día" /> */}
               <FormControlLabel
-                control={<Radio />}
-                value="Semana"
-                label="Semana"
-              />
-              <FormControlLabel control={<Radio/>} label="Mes" />
+                control={ <CheckBox onChange={onChangeWeek} name="Semana"/>}
+                label='Semana'
+              >
+              </FormControlLabel>
+
               <FormControlLabel
-                control={<Radio />}
-                value="Carrera"
-                label="Carrera"
+                control={ <CheckBox onChange={onChangeMonth} name="Mes"/>}
+                label='Mes'
               />
+              
               <FormControlLabel
-                control={<Radio />}
-                value="Aula"
-                label="Aula"
+               control={ <CheckBox onChange={onChangeCareer} name="Carrera"/>}
+                label='Carrera'
               />
+              
               <FormControlLabel
-                control={<Radio />}
-                value="Grupo"
-                label="Grupo"
+               control={ <CheckBox onChange={onChangeClassroom} name="Aula"/>}
+                label='Aula'
               />
-              </RadioGroup>
+              
+              <FormControlLabel
+               control={ <CheckBox onChange={onChangeGroup} name="Grupo"/>}
+                label='Grupo'
+              />
             </FormGroup>
             <Box sx={{ mt: 2 }}>
               <Button onClick={createPDF} variant="outlined">Aceptar</Button>
@@ -161,15 +167,8 @@ export const Home = () => {
               Previsualización PDF 
             </Typography>
             </Box>
-
-            {
-              value === 'Semana' ? 
-              <TableWeekPdf/>
-
-              : 
-              value === 'Grupo' ? <TableGroupWeeklyPdf /> : null
-            }
-          </Box>
+              <TablePdf week={week} group={group} month={month} classroom={classroom} career={career} />
+            </Box>
       </Modal>
     </div>
   );
