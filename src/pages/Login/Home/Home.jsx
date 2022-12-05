@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { getAllUsers } from "../../../api_calls/users";
 import { getRegisteredUsers } from "../../../api_calls/registeredUsers";
 import { ButtonAppBar } from "../../../components/organisms/AppBar/AppBar";
@@ -7,6 +7,7 @@ import ClassroomSt from "../../../components/ClassroomSt";
 import { GroupStatistic } from "../../../components/organisms/GroupGraphic/GroupStatistic";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import * as XLSX from 'xlsx';
 import "./Home.css";
 import { CarreraStatics } from "../../../components/organisms/CarreraGraphics/CarreraStatics";
 import {
@@ -21,6 +22,7 @@ import {
 import { Box } from "@mui/system";
 import CheckBox from '@mui/material/Checkbox';
 import { TablePdf } from "../../../components/TablePdf/TablePdf";
+import { AppContext } from "../../../context/AppContext";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -46,6 +48,8 @@ export const Home = () => {
   const [career, setCareer] = useState(false);
   const [classroom, setClassroom] = useState(false);
   const [group, setGroup] = useState(false);
+
+  const { calculateHours, realHours } = useContext( AppContext )
 
   useEffect(() => {
     getAllUsers()
@@ -78,6 +82,37 @@ export const Home = () => {
       setOpenModal(true)
       
   }
+
+    const onChange = ( event ) => {
+      const [file] = event.target.files;
+        const reader = new FileReader();
+
+        reader.onload = ( evt ) =>{
+        const bstr = evt.target?.result;
+        const wb =  XLSX.read(bstr, {type: 'binary'});
+
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+
+        const data = XLSX.utils.sheet_to_json(ws);
+
+      const tempArray = [] 
+        for(let i = 0; i < data.length; i++){
+          for(let j = 0; j < data.length; j++){
+            if(data[i]['ID de Usuario'] === data[j]['ID de Usuario']){
+              if(data[i]['Tiempo'].substring(0,10)  === data[j]['Tiempo'].substring(0,10))
+              if(data[i]['Estado'].includes('Entrada') && data[j]['Estado'].includes('Salida')){
+                tempArray.push({ entrada: data[i], salida: data[j] })
+                break
+            }
+          }
+        }
+      }
+      calculateHours(tempArray)
+    }
+      reader.readAsBinaryString(file);
+    }
+
   return (
     <div className="home-container">
       <ButtonAppBar />
@@ -96,7 +131,10 @@ export const Home = () => {
           </Select>
         </FormControl>
       </Box>
-
+      
+      <Box sx={{ m: 2 }}>
+      <input id='inputTag' type='file' accept='.xlsx, .xls, .csv' className='input-file' onChange={onChange}/>
+      </Box>
       <Box sx={{ m: 2 }}>
         <Button onClick={() => setHide(!hide)} variant="contained">
           Generar reporte
