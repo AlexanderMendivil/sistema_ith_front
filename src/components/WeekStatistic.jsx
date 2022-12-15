@@ -5,7 +5,7 @@ import { AppContext } from "../context/AppContext";
 import WeekGraphic from "./WeekGraphic";
 
 function WeekStatistic({ chartData, chartData2 }) {
-  const { handleHoursPerDay, hoursPerDay } = useContext( AppContext )
+  const { handleHoursPerDay, hoursPerDay, minutesPerHourNight } = useContext( AppContext )
   //          l  m  mi j  v  s
   let days = [0, 0, 0, 0, 0, 0];
   let arr = ["", "", "", "", "", ""];
@@ -221,7 +221,8 @@ function WeekStatistic({ chartData, chartData2 }) {
     
   }
 
-  var labels = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+  var labelsDay = ["7:00 am - 8:00 am", "8:00 am - 9:00 am", "9:00 am - 11:00 am", "11:00 am - 12:00 am", "12:00 am - 1:00 pm"];
+  var labelsNight = ["1:00 pm - 2:00 pm", "2:00 pm - 3:00 pm", "3:00 pm - 4:00 pm", "4:00 pm - 5:00 pm", "5:00 pm - 6:00 pm", "6:00 pm - 7:00 pm", "7:00 pm - 8:00 pm", "8:00 pm - 9:00 pm"];
 
   return (
     <>
@@ -235,7 +236,7 @@ function WeekStatistic({ chartData, chartData2 }) {
         Lunes: {strRDays[0]} | Martes: {strRDays[1]} | Miércoles: {strRDays[2]} | Jueves:{" "}
         {strRDays[3]} | Viernes: {strRDays[4]} | Sábado: {strRDays[5]}
       </h3>
-      <WeekGraphic scores={hoursPerDay} scores2={rDays} labels={labels} />
+      <WeekGraphic scores={minutesPerHourNight} labels={labelsNight} />
       <br />
     </>
   );
