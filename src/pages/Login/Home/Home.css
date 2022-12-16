@@ -8,6 +8,12 @@
     align-items: center;
 }
 
+.chart-size{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
 .carrera-size{
 
     margin-top: 5rem;

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { getAllUsers } from "../../../api_calls/users";
 import { getRegisteredUsers } from "../../../api_calls/registeredUsers";
 import { ButtonAppBar } from "../../../components/organisms/AppBar/AppBar";
-import WeekStatistic from "../../../components/WeekStatistic";
+import { MorningStatistic } from "../../../components/MorningStatistic";
 import ClassroomSt from "../../../components/ClassroomSt";
 import { GroupStatistic } from "../../../components/organisms/GroupGraphic/GroupStatistic";
 import Typography from '@mui/material/Typography';
@@ -12,19 +12,13 @@ import "./Home.css";
 import { CarreraStatics } from "../../../components/organisms/CarreraGraphics/CarreraStatics";
 import {
   Button,
-  FormControl,
   FormControlLabel,
   FormGroup,
-  InputLabel,
-  MenuItem,
-  Select,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import CheckBox from '@mui/material/Checkbox';
 import { TablePdf } from "../../../components/TablePdf/TablePdf";
 import { AppContext } from "../../../context/AppContext";
-
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const style = {
   position: 'absolute',
@@ -39,8 +33,6 @@ const style = {
 };
 
 export const Home = () => {
-  const [data, setData] = useState([]);
-  const [data2, setData2] = useState([]);
   const [hide, setHide] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [week, setWeek] = useState(false);
@@ -49,16 +41,7 @@ export const Home = () => {
   const [classroom, setClassroom] = useState(false);
   const [group, setGroup] = useState(false);
 
-  const { calculateHours, realHours } = useContext( AppContext )
-
-  useEffect(() => {
-    getAllUsers()
-      .then((data) => setData(data))
-      .catch((e) => console.log(e));
-    getRegisteredUsers()
-      .then((data) => setData2(data))
-      .catch((e) => console.log(e));
-  }, []);
+  const { calculateHours } = useContext( AppContext )
 
   const handleClose = () => {
     setOpenModal(!openModal)
@@ -118,21 +101,6 @@ export const Home = () => {
       <ButtonAppBar />
 
       <Box sx={{ m: 2 }}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Seleccionar</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-          >
-            <MenuItem value={10}>Día</MenuItem>
-            <MenuItem value={20}>Semana</MenuItem>
-            <MenuItem value={30}>Mes</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-      
-      <Box sx={{ m: 2 }}>
       <input id='inputTag' type='file' accept='.xlsx, .xls, .csv' className='input-file' onChange={onChange}/>
       </Box>
       <Box sx={{ m: 2 }}>
@@ -175,15 +143,9 @@ export const Home = () => {
           </Box>
         )}
       </Box>
-      <WeekStatistic chartData={data} chartData2={data2} />
-
-      <div className="flex-charts">
-        <ClassroomSt chartData={data} />
-        <GroupStatistic chartData={data} />
-      </div>
-
-      <div className="carrera-size">
-        <CarreraStatics chartData={data} />
+      <div className="chart-size">
+        <MorningStatistic/>
+        <ClassroomSt />
       </div>
 
       <Modal

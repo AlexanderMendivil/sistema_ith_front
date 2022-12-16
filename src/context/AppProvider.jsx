@@ -37,7 +37,6 @@ export const AppProvider = ({ children }) => {
                 for(let j = 0; j < dayHours.length; j++){
 
                     if(dayHours[j] === +data[i].entrada.Tiempo.substring(11,13)){
-
                     
                     if(data[i].entrada.Tiempo.substring(11,13) === data[i].salida.Tiempo.substring(11,13)){
                         if((+data[i].salida.Tiempo.substring(14,16) - +data[i].entrada.Tiempo.substring(14,16)) >= 20){
@@ -59,7 +58,6 @@ export const AppProvider = ({ children }) => {
                             
                         }
                         
-                        
                     }
                     break
                 }
@@ -68,15 +66,12 @@ export const AppProvider = ({ children }) => {
 
                 sameHour = +data[i].entrada.Tiempo.substring(11,13) === +data[i+1].entrada.Tiempo.substring(11,13)
             }
-
                 if(!sameHour){
                     minutesPerDay.push(minutesDay)
                     setMinutesPerHourDay(minutesPerDay)
                     minutesDay = 0
 
                 }
-
-
             }else if(data[i].entrada.Tiempo.substring(11,13) < 13 && data[i].salida.Tiempo.substring(11,13) > 13){
                 if(data[i].entrada.Tiempo.substring(11,13) === data[i].salida.Tiempo.substring(11,13)){
                     if((+data[i].salida.Tiempo.substring(14,16) - +data[i].entrada.Tiempo.substring(14,16)) >= 20){
@@ -95,10 +90,7 @@ export const AppProvider = ({ children }) => {
                         }else{
                             minutesNight += (60 - +data[i].entrada.Tiempo.substring(14,16))
                         }
-                        
                     }
-                    
-                    
                 }
             }else if(data[i].entrada.Tiempo.substring(11,13) >= 13){
                 for(let j = 0; j < nightHours.length; j++){
@@ -121,14 +113,14 @@ export const AppProvider = ({ children }) => {
                         }else{
                             minutesNight += (60 - +data[i].entrada.Tiempo.substring(14,16))
                         }
-                        
                     }
-                    
-                    
                 }
              }
             }
-            sameHour = +data[i].entrada.Tiempo.substring(11,13) === +data[i+1].entrada.Tiempo.substring(11,13)
+
+            if(data[i+1]){
+                sameHour = +data[i].entrada.Tiempo.substring(11,13) === +data[i+1].entrada.Tiempo.substring(11,13)
+            }
                 if(!sameHour){
                     minutesPerNight.push(minutesNight)
                     setMinutesPerHourNight(minutesPerNight)
