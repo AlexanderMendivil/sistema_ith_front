@@ -14,11 +14,11 @@ import { AppContext } from '../../context/AppContext'
 import Box from '@mui/material/Box';
 import BannerIth from '../../assets/images/banner_ith.png'
 
-  var labels = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+  const labelsNight = ["1:00 pm - 2:00 pm", "2:00 pm - 3:00 pm", "3:00 pm - 4:00 pm", "4:00 pm - 5:00 pm", "5:00 pm - 6:00 pm", "6:00 pm - 7:00 pm", "7:00 pm - 8:00 pm", "8:00 pm - 9:00 pm"];
 
-export const TablePdf = ({week, month, classroom, group, career}) => {
+export const TablePdf = () => {
 
-    const { hoursPerDay, hoursWeeklyGroupDay, nameWeeklyGroup } = useContext( AppContext )
+    const { minutesPerHourNight } = useContext( AppContext )
     const ref = React.createRef();
 
   return (
@@ -50,7 +50,7 @@ export const TablePdf = ({week, month, classroom, group, career}) => {
 
         {
           
-          week ? 
+          minutesPerHourNight ? 
           <Box
         sx={{
             marginTop: 8,
@@ -63,14 +63,14 @@ export const TablePdf = ({week, month, classroom, group, career}) => {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            {labels.map( (header, index) => <TableCell key={index}>{header}</TableCell>)}
+            {labelsNight.map( (header, index) => <TableCell key={index}>{ header }</TableCell>)}
           </TableRow>
         </TableHead>
         <TableBody>
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-              {hoursPerDay.map((hours, index) => (
+              {minutesPerHourNight.map((hours, index) => (
               <TableCell key={index} component="th" scope="row">
                 {hours}
               </TableCell>
@@ -80,41 +80,6 @@ export const TablePdf = ({week, month, classroom, group, career}) => {
       </Table>
     </TableContainer>
     </Box> : <></>
-    }
-
-
-    {
-      
-      group ?
-      <Box
-        sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',}}>
-
-        
-      <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            {nameWeeklyGroup.map( (header, index) => <TableCell key={index}>{header}</TableCell>)}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-              {hoursWeeklyGroupDay.map((hours, index) => (
-              <TableCell key={index} component="th" scope="row">
-                {hours}
-              </TableCell>
-                ))}
-            </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
-    </Box>: <></>
     }
 
       </div>
