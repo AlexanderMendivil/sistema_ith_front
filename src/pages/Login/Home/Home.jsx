@@ -10,6 +10,7 @@ import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import { TablePdf } from "../../../components/TablePdf/TablePdf";
 import { AppContext } from "../../../context/AppContext";
+import { useEffect } from "react";
 
 const style = {
   position: 'absolute',
@@ -25,7 +26,7 @@ const style = {
 
 export const Home = () => {
   const [openModal, setOpenModal] = useState(false);
-  const { calculateHours } = useContext( AppContext )
+  const { calculateHours, minutesPerHourNight } = useContext( AppContext )
 
   const handleClose = () => {
     setOpenModal(!openModal)
@@ -33,6 +34,8 @@ export const Home = () => {
    const createPDF = () => {
       setOpenModal(true)      
   }
+
+  useEffect(()=>{console.log(minutesPerHourNight.length)},[])
 
     const onChange = ( event ) => {
       const [file] = event.target.files;
@@ -72,13 +75,13 @@ export const Home = () => {
       <input id='inputTag' type='file' accept='.xlsx, .xls, .csv' className='input-file' onChange={onChange}/>
       </Box>
       <Box sx={{ m: 2 }}>
-        <Button onClick={createPDF} variant="contained">
+        <Button onClick={createPDF} disabled={ minutesPerHourNight.length === 0 ? true : false } variant="contained">
           Generar reporte
         </Button>
       </Box>
       <div className="chart-size">
-        <MorningStatistic/>
         <ClassroomSt />
+        <MorningStatistic/>
       </div>
 
       <Modal
